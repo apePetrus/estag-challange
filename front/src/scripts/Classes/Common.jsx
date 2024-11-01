@@ -15,7 +15,7 @@ class Common{
   }
 
 
-  static correctNameInput(itemName){  // Prevent HTML and JS injection
+    static correctNameInput(itemName){
     const nameCorrected = itemName.replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/^\s+|\s+$/g,"")  // Removes blank spaces
