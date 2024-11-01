@@ -1,0 +1,50 @@
+.products{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    height: 50%;
+    margin: 10px;
+}
+
+.products > div{
+    background-color: #aaaaaa;
+    width: 3px;
+}
+
+.addProduct{
+    width: 70%;
+    display: grid;
+    column-gap: 10px;
+    row-gap: 5px;
+
+    grid-template:
+    "productName productName amountProduct amountProduct"
+    "unitPriceProduct unitPriceProduct categoryProduct categoryProduct"
+    "addProductButton addProductButton addProductButton addProductButton";
+
+    grid-template-rows: 30px 30px 30px;
+}
+
+#productName { grid-area: productName; border-radius: 5px; }
+
+#amountProduct { grid-area: amountProduct; border-radius: 5px; }
+
+#unitPriceProduct { grid-area: unitPriceProduct; border-radius: 5px; }
+
+#categoryProduct { grid-area: categoryProduct; border-radius: 5px; }
+
+.productTable{
+    border-collapse: collapse;
+    padding: 5px;
+    margin: 5px;
+    height: 10px;
+    text-align: left;
+}
+
+#addProductButton {
+    grid-area: addProductButton;
+    background-color: #6a65fe;
+    font-weight: bold;
+    font-size: 15px;
+    border-radius: 5px;
+}

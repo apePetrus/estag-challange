@@ -1,0 +1,135 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+}
+
+nav{
+    display: flex;
+    background-color: #6a65fe;
+    color: #000000;
+    align-items: center;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 8px;
+}
+
+
+nav > ul{
+    gap: 10px;
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+}
+
+#home{
+    font-size: 24px;
+}
+
+.store{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    height: 50%;
+}
+
+.store > div {
+    background-color: #aaaaaa;
+    width: 3px;
+}
+
+.app{
+    margin: 10px;
+}
+
+.productLeft{
+    width: 100%;
+    display: grid;
+    column-gap: 10px;
+    row-gap: 5px;
+
+    grid-template:
+    'product product product product'
+    'amountCart amountCart taxValue unitPriceCart'
+    'addProductButton addProductButton addProductButton addProductButton';
+    grid-template-rows: 30px 30px 30px;
+}
+
+#sellProduct{ grid-area: product; border-radius: 5px;}
+
+#amountCart { grid-area: amountCart; border-radius: 5px; }
+
+#taxValue { grid-area: taxValue; border-radius: 5px; }
+
+#unitPriceCart { grid-area: unitPriceCart; border-radius: 5px; }
+
+#addProductButtonCart {
+    grid-area: addProductButton;
+    background-color: #6a65fe;
+    font-weight: bold;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+.productRight{
+    position: relative;
+    width: 100%;
+    margin: 10px;
+}
+
+table {
+    border-collapse: collapse;
+    padding: 5px;
+    width: 100%;
+    margin: 5px;
+    text-align: left;
+}
+
+th, td{
+    border: 1px solid #aaaaaa;
+    padding: 3px;
+}
+
+#shoppingCart{
+    display: flex;
+    margin-bottom: 50px;
+}
+
+#shoppingCartBottom {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    right: 0;
+    bottom: 0;
+    gap: 10px;
+    font-weight: bold;
+}
+
+#cancel{
+    background-color: #aaaaaa;
+    width: 100px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+#tax, #total{
+    border-radius: 5px;
+}
+
+#finish{
+    border-radius: 5px;
+    background-color: #6a65fe;
+    width: 100px;
+    height: 30px;
+    font-weight: bold;
+}
+
+#linha{
+    background-color: #aaaaaa;
+    height: 1px;
+}
+
+a:visited, a:hover, a:active, a:link{
+    color: #000000;
+    text-decoration: none;
+}

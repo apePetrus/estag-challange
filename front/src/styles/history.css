@@ -1,0 +1,38 @@
+.history{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    height: 50%;
+    margin: 10px;
+}
+
+
+.history > div{
+    background-color: #aaaaaa;
+    width: 3px;
+}
+
+
+#historyData {
+    border-collapse: collapse;
+    padding: 5px;
+    width: 100%;
+    margin: 5px;
+    text-align: left;
+}
+
+#historyView{
+    border-collapse: collapse;
+    padding: 5px;
+    width: 70%;
+    margin: 5px;
+    text-align: left;
+}
+
+#viewButton{
+    border-radius: 5px;
+    background-color: #aaaaaa;
+    width: 100px;
+    height: 30px;
+    font-weight: bold;
+}
