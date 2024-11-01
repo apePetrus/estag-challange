@@ -40,9 +40,12 @@ function Form({Listing, setListing, setValues}){
       });
       (await Common.getParams('order_item', 'max', e.target.value)).forEach(e => {
         const max = e.max;
-        setInputs(values => ({...values, ['max']: max}));
+        setInputs(values => ({...values, ['max']: Number(max)}));
       });
     }
+        console.log(inputs.max);
+        setInputs(values => ({...values, ['max']: inputs.max - 1}));
+        // console.log(inputs.max);
   }
 
 
