@@ -14,6 +14,14 @@ function Form({Listing, setListing, setValues}){
     fetchData();
   }, []);
 
+
+  async function getMax(code){
+    (await Common.getParams('order_item', 'max', code)).forEach(e => {
+      const max = e.max;
+      setInputs(values => ({...values, ['max']: Number(e.max)}));
+    });
+  }
+
  
   const handleChange = (e) => {
     const name = e.target.name;
@@ -38,14 +46,9 @@ function Form({Listing, setListing, setValues}){
         setInputs(values => ({...values, ['tax']: tax}));
         setInputs(values => ({...values, ['price']: price}));
       });
-      (await Common.getParams('order_item', 'max', e.target.value)).forEach(e => {
-        const max = e.max;
-        setInputs(values => ({...values, ['max']: Number(max)}));
-      });
+
+      getMax(e.target.value);
     }
-        console.log(inputs.max);
-        setInputs(values => ({...values, ['max']: inputs.max - 1}));
-        // console.log(inputs.max);
   }
 
 
@@ -56,8 +59,9 @@ function Form({Listing, setListing, setValues}){
       return;
     }
 
+    getMax(Number(data.product_code));
     setListing([...Listing, data]);
-    setValues(values => ({...values, ['total']: data.totalest, ['tax']: data.totaltax}))
+    setValues(values => ({...values, ['total']: data.totalest, ['tax']: data.totaltax}));
   }
 
 
