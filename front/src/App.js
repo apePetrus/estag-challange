@@ -2,71 +2,50 @@ import { BrowserRouter, Routes, Route,createBrowserRouter, RouterProvider } from
 import { useContext, useState } from 'react';
 
 
-import LayoutPdv from './pages/LayoutPdv';
-import PdvCart from './pages/PdvCart';
-import Products from './pages/Products';
-import PdvCategories from './pages/Categories';
-import History from './pages/History';
+import PdvCart from './pages/employee/PdvCart';
 
 
+import LayoutPdv from './pages/employee/LayoutPdv';
+import PdvProducts from './pages/employee/Products';
+import PdvCategories from './pages/employee/Categories';
+import PdvHistory from './pages/employee/History';
+
+import LayoutStore from './pages/customer/LayoutStore';
+import StoreCategories from './pages/customer/StoreCategories';
+import StoreProducts from './pages/customer/StoreProducts';
 
 
-// FUTURE STUFF TO WORK WITH
-//
-//
-import { createContext } from 'react';
-import LayoutStore from './pages/LayoutStore';
-import Home from './pages/Home.js';
-import StoreCategories from './pages/StoreCategories';
-import Pdv from './pages/Pdv';
+const routerEmployee = createBrowserRouter([
+  {
+    path: '/',
+    element: <LayoutPdv />,
+    children: [
+      { path: '/', element: <PdvCart /> },
+      { path: '/products', element: <PdvProducts /> },
+      { path: '/categories', element: <PdvCategories /> },
+      { path: '/history', element: <PdvHistory /> },
+    ]
+  }
+]);
 
 
-//
-//
-// END OF FUTURE STUFF TO WORK WITH
-
-
+const routerCustomer = createBrowserRouter([
+  {
+    path: '/',
+    element: <LayoutStore />,
+    children: [
+      { path: '/', element: <PdvCart /> },
+      { path: '/categories', element: <StoreCategories /> },
+      { path: '/products', element: <StoreProducts /> },
+    ]
+  }
+]);
 
 
 function App() {
-
-  const [ routerLayout, setRouterLayout ] = useState();
-
-  const routerEmployee = createBrowserRouter([
-    {
-      path: '/',
-      element: <LayoutPdv routerLayout={routerLayout}/>,
-      children: [
-        { path: '/', element: <PdvCart /> },
-        { path: '/products', element: <Products /> },
-        { path: '/categories', element: <PdvCategories /> },
-        { path: '/history', element: <History /> },
-      ]
-    }
-  ]);
-
-
-  const routerCustomer = createBrowserRouter([
-    {
-      path: '/',
-      element: <LayoutStore />,
-      children: [
-        { path: '/', element: <PdvCart /> },
-        { path: '/categories', element: <StoreCategories /> },
-        // { path: '/', element: <Pdv /> }, 
-      ],
-    },
-  ]);
-
-  // setRouterLayout({routerEmployee})
-
-  return (
-      <RouterProvider router={routerCustomer} />
-
-  );
+  return (<RouterProvider router={routerCustomer} />);
 }
 
 
-
-
 export default App;
+
