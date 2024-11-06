@@ -1,9 +1,7 @@
 import { BrowserRouter, Routes, Route, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useContext, useState } from 'react';
 
-
 import PdvCart from './pages/employee/PdvCart';
-
 
 import LayoutPdv from './pages/employee/LayoutPdv';
 import PdvProducts from './pages/employee/Products';

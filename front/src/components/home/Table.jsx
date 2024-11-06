@@ -1,4 +1,3 @@
-import '../../styles/index.css';
 import { useState, useEffect } from 'react';
 import Common from '../../scripts/Classes/Common.jsx'; 
 

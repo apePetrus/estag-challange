@@ -1,4 +1,3 @@
-import '../../styles/categories.css';
 import Common from '../../scripts/Classes/Common.jsx'; 
 
 
@@ -6,6 +5,7 @@ function Table({Listing, setListing}) {
   return (
   <>
     <table id='categoriesTable' className='categoriesTable'>
+
       <thead>
         <tr>
           <th>Code</th>
@@ -25,6 +25,7 @@ function Table({Listing, setListing}) {
           </tr>
         ))}
       </tbody>
+
     </table>
   </>
   );

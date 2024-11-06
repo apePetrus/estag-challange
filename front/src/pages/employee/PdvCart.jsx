@@ -1,4 +1,4 @@
-import '../../styles/index.css';
+import '../../styles/home.css';
 import { useState, useEffect } from 'react';
 
 import Form   from '../../components/home/Form.jsx';
