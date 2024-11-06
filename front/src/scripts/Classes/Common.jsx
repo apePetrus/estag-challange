@@ -75,7 +75,7 @@ class Common{
 
       return response;
     } catch (error) {
-      window.alert("aaInvalid inputs.");
+      window.alert("Invalid inputs.");
       return false;
     }
   }
