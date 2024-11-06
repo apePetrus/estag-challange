@@ -11,9 +11,12 @@ class Categories{
 
 
 	private static function readCategories(): array {
-    $stmt = self::$conn->query('
-      SELECT code, name, tax
-      FROM categories ORDER BY code ASC');
+    $sql = 'SELECT code, name, tax
+      FROM categories ORDER BY code ASC';
+      self::$conn->beginTransaction();
+
+    $stmt = self::$conn->prepare($sql);
+    $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     return $result;

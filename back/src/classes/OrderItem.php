@@ -11,7 +11,7 @@ class OrderItem{
 
 
 	private static function readOrderItems(): array {
-    $stmt = self::$conn->query("
+    $sql = '
       SELECT ot.code, pr.name, ot.price, ot.tax, ot.amount,
       ot.price * ot.amount AS total,
       NULL AS totalvalue,
@@ -27,7 +27,11 @@ class OrderItem{
       FROM order_item
       WHERE order_code = (SELECT MAX(code) FROM orders)
       ORDER BY code;
-    ");
+    ';
+    self::$conn->beginTransaction();
+
+    $stmt = self::$conn->prepare($sql);
+    $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     return $result;
@@ -35,24 +39,29 @@ class OrderItem{
 
 
 	private static function readOrderItem(int $code): array {
-    $stmt = self::$conn->query("
+    $sql = '
       SELECT ot.code, pr.name, ot.price, ot.tax, ot.amount,
       ot.price * ot.amount AS total,
       NULL AS totalvalue,
       NULL AS taxed
       FROM order_item ot
       INNER JOIN products pr ON ot.product_code = pr.code
-      WHERE order_code = $code
+      WHERE order_code = :code
       UNION ALL
       SELECT NULL, NULL, NULL, NULL, NULL, NULL,
       SUM(price * amount),
       SUM(round((price * amount) * (tax / 100), 2))
       AS tax_value
       FROM order_item
-      WHERE order_code = $code
+      WHERE order_code = :code
       ORDER BY code;
-    ");
+    ';
+    self::$conn->beginTransaction();
 
+    $stmt = self::$conn->prepare($sql);
+    $stmt->execute(
+      ['code' => $code ]
+    );
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     return $result;
@@ -86,16 +95,18 @@ class OrderItem{
 
     self::updateOrders();
 
-    $get_last_query_info = self::$conn->query("
+    $get_last_query_info = ('
       SELECT pr.name, pr.price,
       pr.price * ot.amount AS total,
       (SELECT total FROM orders WHERE code = (SELECT MAX(code) FROM orders)) AS totalest,
       (SELECT tax FROM orders WHERE code = (SELECT MAX(code) FROM orders)) AS totaltax
-      FROM order_item ot 
+      FROM order_item ot
       INNER JOIN products pr ON ot.product_code = pr.code
       WHERE ot.code = (SELECT MAX(code) FROM order_item)
-    ");
-    $info = $get_last_query_info->fetch(PDO::FETCH_ASSOC);
+    ');
+    $stmt = self::$conn->prepare($get_last_query_info);
+    $stmt->execute();
+    $info = $stmt->fetch(PDO::FETCH_ASSOC);
 
     return [
       "code" => $last_code,

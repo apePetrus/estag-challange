@@ -1,9 +1,6 @@
 import { Outlet, Link } from 'react-router-dom';
 
-const Layout = () =>{
-  const handleLayout = () => {
-    localStorage.setItem("admin", false);
-  }
+const Layout = () => {
 
   return (
     <>
@@ -20,9 +17,6 @@ const Layout = () =>{
           </li>
           <li>
             <Link to="/history">History</Link>
-          </li>
-          <li> 
-            <button onClick={handleLayout}>Change Layout</button>
           </li>
         </ul>
       </nav>
