@@ -93,7 +93,7 @@ class Orders{
     return [
       "code" => $last_code,
       "total" => $total,
-      "tax" => $tax	
+      "tax" => $tax
     ];
 	}
 
