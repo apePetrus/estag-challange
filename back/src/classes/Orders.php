@@ -74,14 +74,12 @@ class Orders{
     return $result;
   }
 
-  
+
 	private static function addOrders(float $total, float $tax): array | string {
     $sql = '
       INSERT INTO orders (total, tax, historydate) VALUES (:total, :tax, :historydate)
     ';
     $current_data = Common::setDate();
-    
-    self::$conn->beginTransaction();
 
     $stmt = self::$conn->prepare($sql);
     $stmt->bindParam(':total', $total, PDO::PARAM_STR);

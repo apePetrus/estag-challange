@@ -36,14 +36,14 @@ const routerCustomer = createBrowserRouter([
     children: [
       { path: '/', element: <PdvCart /> },
       { path: '/categories', element: <StoreCategories /> },
-      { path: '/products', element: <StoreProducts /> },
+      { path: '/history', element: <PdvHistory /> },
     ]
   }
 ]);
 
 
 function App() {
-  return (<RouterProvider router={routerCustomer} />);
+  return (<RouterProvider router={routerEmployee} />);
 }
 
 
