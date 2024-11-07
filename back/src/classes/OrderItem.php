@@ -162,10 +162,21 @@ class OrderItem{
     $stmt->execute();
 
     self::$conn->commit();
+
+    self::updateOrders();
+
+    $sql = '
+      SELECT code, total, tax, historydate
+      FROM orders
+      WHERE code = (SELECT MAX(code) FROM orders)
+      ORDER BY code ASC
+    ';
+    $stmt = self::$conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     http_response_code(200);
-    return [
-      '200' => 'Ok'
-    ];
+    return $result;
   }
 
 

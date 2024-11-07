@@ -98,7 +98,7 @@ function Form({Listing, setListing, setValues}){
              placeholder='Tax'
              name='tax'
              value={inputs.tax || ''}
-             disabled 
+             disabled
       />
       <input type='number'
              id='unitPriceCart'

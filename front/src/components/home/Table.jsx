@@ -35,7 +35,7 @@ function Table({Listing, setListing, removeItem, setValues, values}) {
             <td>{item.price}</td>
             <td>{item.amount}</td>
             <td>{item.total}</td>
-            <td><button onClick={ () => Common.deleteItems('order_item', item.code, setListing, Listing) }>Delete</button></td>
+            <td><button onClick={ () => Common.deleteItems('order_item', item.code, setListing, Listing, setValues, values) }>Delete</button></td>
           </tr>
         ))}
       </tbody>
