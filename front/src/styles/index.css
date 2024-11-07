@@ -1,19 +1,27 @@
 :root {
   --bg: #DAD7CD;
+  --fg: #344E41;
+  --gray: #A3B18A;
+  --strong-green: #3A5A40;
+  --green: #588157;
+}
+
+
+body {
+  background-color: var(--bg)
 }
 
 
 * {
     margin: 0;
     padding: 0;
-    font-family: Arial;
+    font-family: Verdana, sans-serif;
 }
 
 
 nav {
     display: flex;
-    background-color: var(--bg);
-    color: #000000;
+    background-color: var(--strong-green);
     align-items: center;
     text-decoration: none;
     font-weight: bold;
@@ -35,16 +43,19 @@ table {
     width: 100%;
     margin: 5px;
     text-align: left;
+    background-color: var(--gray)
 }
 
 
 th, td {
-    border: 1px solid #aaaaaa;
+    border: 2px solid var(--strong-green);
+
     padding: 3px;
 }
 
 
 a:visited, a:hover, a:active, a:link {
-    color: #000000;
+    color: var(--bg);
     text-decoration: none;
 }
+

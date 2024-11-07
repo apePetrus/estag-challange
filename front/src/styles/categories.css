@@ -1,3 +1,9 @@
+:root {
+  --bg: #DAD7CD;
+  --fg: #344E41;
+  --gray: #A3B18A;
+}
+
 
 .categories{
     display: flex;
@@ -6,6 +12,7 @@
     height: 50%;
     margin: 10px;
 }
+
 
 .categoriesForm{
     width: 66%;
@@ -18,21 +25,24 @@
     "addCategory addCategory";
 
     grid-template-rows: 30px 40px;
-
 }
+
 
 #categoryName { grid-area: categoryName; border-radius: 5px;}
 
+
 #taxPercent { grid-area: taxPercent; border-radius: 5px;}
+
 
 #addCategory {
     grid-area: addCategory;
     border-radius: 5px;
-    background-color: #6a65fe;
+    background-color: var(--bg);
     font-weight: bold;
     font-size: 15px;
     border-radius: 5px;
 }
+
 
 .categoriesTable{
     border-collapse: collapse;
@@ -42,7 +52,9 @@
     text-align: left;
 }
 
-.categories > div{
-    background-color: #aaaaaa;
+
+.categories > div {
+    background-color: var(--gray);
     width: 3px;
 }
+

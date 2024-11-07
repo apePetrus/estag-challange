@@ -109,7 +109,3 @@
     height: 1px;
 }
 
-a:visited, a:hover, a:active, a:link{
-    color: #000000;
-    text-decoration: none;
-}
