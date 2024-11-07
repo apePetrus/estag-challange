@@ -102,11 +102,12 @@ class Common{
 
       code != null ? setListing(Listing.filter(e => e.code != code)) : setListing([]) ?? setValues({});
 
-      response.map((e) => {
-        setValues(values => ({...values, ['total']: e.total, ['tax']: e.tax}));
-          console.log(e.total)
-          console.log(e.tax)
-      })
+      if (values) {
+        response.map((e) => {
+          setValues(values => ({...values, ['total']: e.total, ['tax']: e.tax}));
+        })
+      }
+
       return response;
     } catch (error) {
       window.alert("You can't delete this item because there is another table attatched to it.");
