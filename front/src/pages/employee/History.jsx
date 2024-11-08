@@ -1,8 +1,8 @@
 import '../../styles/history.css';
 import { useState, useEffect } from 'react';
 
-import Orders from '../../components/history/Orders.jsx';
-import OrderItems from '../../components/history/OrderItems.jsx';
+import Orders from '../../components/employee/history/Orders.jsx';
+import OrderItems from '../../components/employee/history/OrderItems.jsx';
 import Common from '../../scripts/Classes/Common.jsx';
 
 const History = () => {

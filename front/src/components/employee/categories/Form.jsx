@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import Common from '../../scripts/Classes/Common.jsx';
+import Common from '../../../scripts/Classes/Common.jsx';
 
 
 function Form({Listing, setListing}){

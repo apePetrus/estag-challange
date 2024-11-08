@@ -1,8 +1,8 @@
 import '../../styles/categories.css';
 import { useState, useEffect } from 'react';
 
-import Form   from '../../components/categories/Form.jsx';
-import Table  from '../../components/categories/Table.jsx';
+import Form   from '../../components/employee/categories/Form.jsx';
+import Table  from '../../components/employee/categories/Table.jsx';
 import Common from '../../scripts/Classes/Common.jsx';
 
 

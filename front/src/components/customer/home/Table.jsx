@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Common from '../../scripts/Classes/Common.jsx'; 
+import Common from '../../../scripts/Classes/Common.jsx'; 
 
 
 function Table({Listing, setListing, removeItem, setValues, values}) {

@@ -1,8 +1,8 @@
 import '../../styles/home.css';
 import { useState, useEffect } from 'react';
 
-import Form   from '../../components/home/Form.jsx';
-import Table  from '../../components/home/Table.jsx';
+import Form   from '../../components/customer/home/Form.jsx';
+import Table  from '../../components/customer/home/Table.jsx';
 import Common from '../../scripts/Classes/Common.jsx'
 
 
