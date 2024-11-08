@@ -2,6 +2,8 @@
   --bg: #DAD7CD;
   --fg: #344E41;
   --gray: #A3B18A;
+  --strong-green: #3A5A40;
+  --green: #588157;
 }
 
 
@@ -37,7 +39,8 @@
 #addCategory {
     grid-area: addCategory;
     border-radius: 5px;
-    background-color: var(--bg);
+    background-color: var(--strong-green);
+    color: var(--bg);
     font-weight: bold;
     font-size: 15px;
     border-radius: 5px;

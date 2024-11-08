@@ -1,3 +1,11 @@
+:root {
+  --bg: #DAD7CD;
+  --fg: #344E41;
+  --gray: #A3B18A;
+  --strong-green: #3A5A40;
+  --green: #588157;
+}
+
 #home{
     font-size: 24px;
 }
@@ -62,7 +70,8 @@
 
 #addProductButtonCart {
   grid-area: addProductButton;
-  background-color: #6a65fe;
+  background-color: var(--strong-green);
+  color: var(--bg);
   font-weight: bold;
   font-size: 15px;
   border-radius: 5px;
@@ -86,7 +95,7 @@
 }
 
 #cancel{
-    background-color: #aaaaaa;
+    background-color: var(--gray);
     width: 100px;
     border-radius: 5px;
     font-weight: bold;
@@ -97,11 +106,12 @@
 }
 
 #finish{
-    border-radius: 5px;
-    background-color: #6a65fe;
-    width: 100px;
-    height: 30px;
-    font-weight: bold;
+  border-radius: 5px;
+  background-color: var(--strong-green);
+  color: var(--bg);
+  width: 100px;
+  height: 30px;
+  font-weight: bold;
 }
 
 #linha{
