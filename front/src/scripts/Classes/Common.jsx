@@ -51,17 +51,18 @@ class Common{
 
 
   static async addItems(endpoint, items){
-    try {
-      const response = await fetch('http://localhost/' + endpoint, {
-        method: 'POST',
-        body: JSON.stringify(items)
+      return (await fetch('http://localhost/' + endpoint, {
+      method: 'POST',
+      body: JSON.stringify(items)
 
-      }).then((e) => e.json());
-
+    }).then((e) => e.json())
+    .then((response) => {
+      if (response.status) {
+        window.alert('Invalid inputs');
+        return
+      }
       return response;
-    } catch (error) {
-      window.alert("Invalid inputs.");
-    }
+    }))
   }
 
 

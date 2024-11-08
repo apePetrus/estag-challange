@@ -83,41 +83,49 @@ class OrderItem{
       )
     ';
 
-    self::$conn->beginTransaction();
+    try {
+      self::$conn->beginTransaction();
 
-    $stmt = self::$conn->prepare($sql);
-    $stmt->bindParam(':product_code', $product_code, PDO::PARAM_INT);
-    $stmt->bindParam(':amount', $amount, PDO::PARAM_INT);
-    $stmt->execute();
-    $last_code = self::$conn->lastInsertId();
+      $stmt = self::$conn->prepare($sql);
+      $stmt->bindParam(':product_code', $product_code, PDO::PARAM_INT);
+      $stmt->bindParam(':amount', $amount, PDO::PARAM_INT);
+      $stmt->execute();
+      $last_code = self::$conn->lastInsertId();
 
-    self::$conn->commit();
+      self::$conn->commit();
 
-    self::updateOrders();
+      self::updateOrders();
 
-    $get_last_query_info = ('
-      SELECT pr.name, pr.price,
-      pr.price * ot.amount AS total,
-      (SELECT total FROM orders WHERE code = (SELECT MAX(code) FROM orders)) AS totalest,
-      (SELECT tax FROM orders WHERE code = (SELECT MAX(code) FROM orders)) AS totaltax
-      FROM order_item ot
-      INNER JOIN products pr ON ot.product_code = pr.code
-      WHERE ot.code = (SELECT MAX(code) FROM order_item)
-    ');
-    $stmt = self::$conn->prepare($get_last_query_info);
-    $stmt->execute();
-    $info = $stmt->fetch(PDO::FETCH_ASSOC);
+      $get_last_query_info = ('
+        SELECT pr.name, pr.price,
+        pr.price * ot.amount AS total,
+        (SELECT total FROM orders WHERE code = (SELECT MAX(code) FROM orders)) AS totalest,
+        (SELECT tax FROM orders WHERE code = (SELECT MAX(code) FROM orders)) AS totaltax
+        FROM order_item ot
+        INNER JOIN products pr ON ot.product_code = pr.code
+        WHERE ot.code = (SELECT MAX(code) FROM order_item)
+      ');
+      $stmt = self::$conn->prepare($get_last_query_info);
+      $stmt->execute();
+      $info = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    return [
-      "code" => $last_code,
-      "product_code" => $product_code,
-      "amount" => $amount,
-      "name" => $info['name'],
-      "price" => $info['price'],
-      "total" => $info['total'],
-      "totalest" => $info['totalest'],
-      "totaltax" => $info['totaltax']
-    ];
+      return [
+        "code" => $last_code,
+        "product_code" => $product_code,
+        "amount" => $amount,
+        "name" => $info['name'],
+        "price" => $info['price'],
+        "total" => $info['total'],
+        "totalest" => $info['totalest'],
+        "totaltax" => $info['totaltax']
+      ];
+    } catch (PDOException) {
+      http_response_code(401);
+      return [
+        'status' => 401,
+        'message' => 'Unathourized'
+      ];
+    }
   }
 
 

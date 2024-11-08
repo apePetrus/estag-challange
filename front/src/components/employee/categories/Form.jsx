@@ -15,11 +15,12 @@ function Form({Listing, setListing}){
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = (await Common.addItems('categories', inputs))
+    const data = (await Common.addItems('categories', inputs));
     if (!data) {
       return;
     }
 
+    console.log(data);
     setListing([...Listing, data]);
   }
 

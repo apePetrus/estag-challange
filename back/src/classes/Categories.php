@@ -27,20 +27,28 @@ class Categories{
     $sql = 'INSERT INTO categories (name, tax) VALUES (:name, :tax)';
     self::$conn->beginTransaction();
 
-    $stmt = self::$conn->prepare($sql);
-    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-    $stmt->bindParam(':tax', $tax, PDO::PARAM_STR);
-    $stmt->execute();
-    $last_id = self::$conn->lastInsertId();
+    try {
+      $stmt = self::$conn->prepare($sql);
+      $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+      $stmt->bindParam(':tax', $tax, PDO::PARAM_STR);
+      $stmt->execute();
+      $last_id = self::$conn->lastInsertId();
 
-    self::$conn->commit();
+      self::$conn->commit();
 
-    http_response_code(200);
-    return [
-      "code" => $last_id,
-      "name" => $name,
-      "tax" => $tax
-    ];
+      http_response_code(200);
+      return [
+        "code" => $last_id,
+        "name" => $name,
+        "tax" => $tax
+      ];
+    } catch (PDOException) {
+      http_response_code(401);
+      return [
+        'status' => 401,
+        'message' => 'Unathourized'
+      ];
+    }
 	}
 
 

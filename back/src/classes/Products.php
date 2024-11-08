@@ -68,33 +68,41 @@ class Products{
     ';
     self::$conn->beginTransaction();
 
-    $stmt = self::$conn->prepare($sql);
-    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-    $stmt->bindParam(':amount', $amount, PDO::PARAM_INT);
-    $stmt->bindParam(':price', $price, PDO::PARAM_STR);
-    $stmt->bindParam(':category_code', $category_code, PDO::PARAM_INT);
-    $stmt->execute();
+    try {
+      $stmt = self::$conn->prepare($sql);
+      $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+      $stmt->bindParam(':amount', $amount, PDO::PARAM_INT);
+      $stmt->bindParam(':price', $price, PDO::PARAM_STR);
+      $stmt->bindParam(':category_code', $category_code, PDO::PARAM_INT);
+      $stmt->execute();
 
-    $last_id = self::$conn->lastInsertId();
-    self::$conn->commit();
+      $last_id = self::$conn->lastInsertId();
+      self::$conn->commit();
 
-    $get_category = ('
-      SELECT name FROM categories WHERE code = :category_code;
-    ');
-    $stmt = self::$conn->prepare($get_category);
-    $stmt->execute(
-      [ 'category_code' => $category_code ]
-    );
-    $category_name = $stmt->fetch(PDO::FETCH_ASSOC);
+      $get_category = ('
+        SELECT name FROM categories WHERE code = :category_code;
+      ');
+      $stmt = self::$conn->prepare($get_category);
+      $stmt->execute(
+        [ 'category_code' => $category_code ]
+      );
+      $category_name = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    return [
-      "code" => $last_id,
-      "name" => $name,
-      "amount" => $amount,
-      "price" => $price,
-      "category_code" => $category_code,
-      "category_name" => $category_name['name']
-    ];
+      return [
+        "code" => $last_id,
+        "name" => $name,
+        "amount" => $amount,
+        "price" => $price,
+        "category_code" => $category_code,
+        "category_name" => $category_name['name']
+      ];
+    } catch (PDOException) {
+      http_response_code(401);
+      return [
+        'status' => 401,
+        'message' => 'Unathourized'
+      ];
+    }
   }
 
 
