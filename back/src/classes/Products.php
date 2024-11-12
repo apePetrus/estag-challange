@@ -11,12 +11,14 @@ class Products{
 
 
 	private static function readProducts(): array {
-    $stmt = self::$conn->query('
-      SELECT products.code, products.name, amount, price, categories.name AS category_name
+    $sql = 'SELECT products.code, products.name, amount, price, categories.name AS category_name
       FROM products
       INNER JOIN categories ON products.category_code = categories.code
-      ORDER BY products.code ASC'
-    );
+      ORDER BY products.code ASC';
+    self::$conn->beginTransaction();
+    
+    $stmt = self::$conn->prepare($sql);
+    $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     return $result;
@@ -24,13 +26,35 @@ class Products{
 
 
   private static function readProduct(int $code): array {
-    $stmt = self::$conn->query("
-      SELECT pr.code, pr.name, amount, price, ct.tax, ct.name AS category_name
+    $sql = 'SELECT pr.code, pr.name, amount, price, ct.tax, ct.name AS category_name
       FROM products pr
       INNER JOIN categories ct ON pr.category_code = ct.code
-      WHERE pr.code = $code
-      ORDER BY pr.code ASC
-    ");
+      WHERE pr.code = :code
+      ORDER BY pr.code ASC';
+    self::$conn->beginTransaction();
+
+    $stmt = self::$conn->prepare($sql);
+    $stmt->execute(
+      ['code' => $code]
+    );
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    return $result;
+  }
+
+
+  private static function readProductsByCategories(int $category_code): array {
+    $sql = 'SELECT products.code, products.name, amount, price, categories.name AS category_name
+      FROM products
+      INNER JOIN categories ON products.category_code = categories.code
+      WHERE category_code = :category_code
+      ORDER BY products.code ASC';
+    self::$conn->beginTransaction();
+
+    $stmt = self::$conn->prepare($sql);
+    $stmt->execute(
+      [ 'category_code' => $category_code ]
+    );
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     return $result;
@@ -44,26 +68,41 @@ class Products{
     ';
     self::$conn->beginTransaction();
 
-    $stmt = self::$conn->prepare($sql);
-    $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-    $stmt->bindParam(':amount', $amount, PDO::PARAM_INT);
-    $stmt->bindParam(':price', $price, PDO::PARAM_STR);
-    $stmt->bindParam(':category_code', $category_code, PDO::PARAM_INT);
-    $stmt->execute();
+    try {
+      $stmt = self::$conn->prepare($sql);
+      $stmt->bindParam(':name', $name, PDO::PARAM_STR);
+      $stmt->bindParam(':amount', $amount, PDO::PARAM_INT);
+      $stmt->bindParam(':price', $price, PDO::PARAM_STR);
+      $stmt->bindParam(':category_code', $category_code, PDO::PARAM_INT);
+      $stmt->execute();
 
-    $last_id = self::$conn->lastInsertId();
-    self::$conn->commit();
+      $last_id = self::$conn->lastInsertId();
+      self::$conn->commit();
 
-    $get_category = self::$conn->query("SELECT name FROM categories WHERE code = $category_code");
-    $category_name= $get_category->fetch(PDO::FETCH_ASSOC); 
-    return [
-      "code" => $last_id,
-      "name" => $name,
-      "amount" => $amount,
-      "price" => $price,
-      "category_code" => $category_code,
-      "category_name" => $category_name['name']
-    ];
+      $get_category = ('
+        SELECT name FROM categories WHERE code = :category_code;
+      ');
+      $stmt = self::$conn->prepare($get_category);
+      $stmt->execute(
+        [ 'category_code' => $category_code ]
+      );
+      $category_name = $stmt->fetch(PDO::FETCH_ASSOC);
+
+      return [
+        "code" => $last_id,
+        "name" => $name,
+        "amount" => $amount,
+        "price" => $price,
+        "category_code" => $category_code,
+        "category_name" => $category_name['name']
+      ];
+    } catch (PDOException) {
+      http_response_code(401);
+      return [
+        'status' => 401,
+        'message' => 'Unathourized'
+      ];
+    }
   }
 
 
@@ -93,10 +132,15 @@ class Products{
     $price = $request_info['BODY']['price'] ?? null;
     $category_code = $request_info['BODY']['category_code'] ?? null;
 
+    $category_parameter = $_GET['category'] ?? null;
+
 		switch ($method) {
 			case 'GET':
-				if ($item_code) {
+        if ($item_code) {
           return self::readProduct($item_code);
+        }
+        else if ($category_parameter) {
+          return self::readProductsByCategories($category_parameter);
         }
         return self::readProducts();
       break;

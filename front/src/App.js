@@ -1,42 +1,17 @@
-import { BrowserRouter, Routes, Route,createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { useContext, useState } from 'react';
 
+import PdvHome from './pages/employee/Home';
+import StoreHome from './pages/customer/Home';
 
-import LayoutPdv from './pages/LayoutPdv';
-import PdvCart from './pages/PdvCart';
-import Products from './pages/Products';
-import PdvCategories from './pages/Categories';
-import History from './pages/History';
+import LayoutPdv from './pages/employee/Layout';
+import PdvProducts from './pages/employee/Products';
+import PdvCategories from './pages/employee/Categories';
+import PdvHistory from './pages/employee/History';
 
-
-
-
-// FUTURE STUFF TO WORK WITH
-//
-//
-import { createContext } from 'react';
-import LayoutStore from './pages/LayoutStore';
-import Home from './pages/Home.js';
-import StoreCategories from './pages/StoreCategories';
-import Pdv from './pages/Pdv';
-
-// const RouterContext = createContext();
-
-const routerCustomer = createBrowserRouter([
-  {
-    path: '/',
-    element: <LayoutStore />,
-    children: [
-      { path: '/', element: <Home /> },
-      { path: '/categories', element: <StoreCategories /> },
-      // { path: '/', element: <Pdv /> }, 
-    ],
-  },
-]);
-//
-//
-// END OF FUTURE STUFF TO WORK WITH
-
+import LayoutStore from './pages/customer/Layout';
+import StoreCategories from './pages/customer/Categories';
+import StoreProducts from './pages/customer/Products';
 
 
 const routerEmployee = createBrowserRouter([
@@ -44,24 +19,32 @@ const routerEmployee = createBrowserRouter([
     path: '/',
     element: <LayoutPdv />,
     children: [
-      { path: '/', element: <PdvCart /> },
-      { path: '/products', element: <Products /> },
+      { path: '/', element: <PdvHome /> },
+      { path: '/products', element: <PdvProducts /> },
       { path: '/categories', element: <PdvCategories /> },
-      { path: '/history', element: <History /> },
+      { path: '/history', element: <PdvHistory /> },
     ]
   }
 ]);
 
+
+const routerCustomer = createBrowserRouter([
+  {
+    path: '/',
+    element: <LayoutStore />,
+    children: [
+      { path: '/', element: <StoreHome /> },
+      { path: '/categories', element: <StoreCategories /> },
+      { path: '/history', element: <PdvHistory /> },
+    ]
+  }
+]);
+
+
 function App() {
-  // const [ routerLayout, setRouterLayout ] = useContext(RouterContext);
-
-  return (
-      <RouterProvider router={routerEmployee} />
-
-  );
+  return (<RouterProvider router={routerEmployee} />);
 }
 
 
-
-
 export default App;
+

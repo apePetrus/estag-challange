@@ -1,13 +1,27 @@
-*{
-    margin: 0;
-    padding: 0;
-    font-family: Arial;
+:root {
+  --bg: #DAD7CD;
+  --fg: #344E41;
+  --gray: #A3B18A;
+  --strong-green: #3A5A40;
+  --green: #588157;
 }
 
-nav{
+
+body {
+  background-color: var(--bg)
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, sans-serif;
+}
+
+
+nav {
     display: flex;
-    background-color: #6a65fe;
-    color: #000000;
+    background-color: var(--strong-green);
     align-items: center;
     text-decoration: none;
     font-weight: bold;
@@ -15,67 +29,13 @@ nav{
 }
 
 
-nav > ul{
+nav > ul {
     gap: 10px;
     list-style-type: none;
     display: flex;
     align-items: center;
 }
 
-#home{
-    font-size: 24px;
-}
-
-.store{
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    height: 50%;
-}
-
-.store > div {
-    background-color: #aaaaaa;
-    width: 3px;
-}
-
-.app{
-    margin: 10px;
-}
-
-.productLeft{
-    width: 100%;
-    display: grid;
-    column-gap: 10px;
-    row-gap: 5px;
-
-    grid-template:
-    'product product product product'
-    'amountCart amountCart taxValue unitPriceCart'
-    'addProductButton addProductButton addProductButton addProductButton';
-    grid-template-rows: 30px 30px 30px;
-}
-
-#sellProduct{ grid-area: product; border-radius: 5px;}
-
-#amountCart { grid-area: amountCart; border-radius: 5px; }
-
-#taxValue { grid-area: taxValue; border-radius: 5px; }
-
-#unitPriceCart { grid-area: unitPriceCart; border-radius: 5px; }
-
-#addProductButtonCart {
-    grid-area: addProductButton;
-    background-color: #6a65fe;
-    font-weight: bold;
-    font-size: 15px;
-    border-radius: 5px;
-}
-
-.productRight{
-    position: relative;
-    width: 100%;
-    margin: 10px;
-}
 
 table {
     border-collapse: collapse;
@@ -83,47 +43,19 @@ table {
     width: 100%;
     margin: 5px;
     text-align: left;
+    background-color: var(--gray)
 }
 
-th, td{
-    border: 1px solid #aaaaaa;
+
+th, td {
+    border: 2px solid var(--strong-green);
+
     padding: 3px;
 }
 
-#shoppingCartBottom {
-    display: flex;
-    width: 100%;
-    right: 0;
-    bottom: 0;
-    gap: 10px;
-    font-weight: bold;
-}
 
-#cancel{
-    background-color: #aaaaaa;
-    width: 100px;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-#tax, #total{
-    border-radius: 5px;
-}
-
-#finish{
-    border-radius: 5px;
-    background-color: #6a65fe;
-    width: 100px;
-    height: 30px;
-    font-weight: bold;
-}
-
-#linha{
-    background-color: #aaaaaa;
-    height: 1px;
-}
-
-a:visited, a:hover, a:active, a:link{
-    color: #000000;
+a:visited, a:hover, a:active, a:link {
+    color: var(--bg);
     text-decoration: none;
 }
+

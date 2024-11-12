@@ -10,10 +10,12 @@ class Orders{
 
 
 	private static function readOrders(): array {
-    $stmt = self::$conn->query('
+    $sql = '
       SELECT code, total, tax, historydate
-      FROM orders ORDER BY code ASC'
-    );
+      FROM orders ORDER BY code ASC
+    ';
+    $stmt = self::$conn->prepare($sql);
+    $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     return $result;
@@ -22,19 +24,6 @@ class Orders{
 
   private static function updateOrders(float $total, float $tax): array {
     self::updateStorage();
-    /* $sql = ' */
-    /*   UPDATE orders */
-    /*   SET total = :total, tax = :tax */
-    /*   WHERE code = (select max(code) from orders) */
-    /* '; */
-    /**/
-    /* self::$conn->beginTransaction(); */
-    /* $stmt = self::$conn->prepare($sql); */
-    /* $stmt->bindParam(':total', $total, PDO::PARAM_STR); */
-    /* $stmt->bindParam(':tax', $tax, PDO::PARAM_STR); */
-    /* $stmt->execute(); */
-    /**/
-    /* self::$conn->commit(); */
 
     self::addOrders(0, 0);
 
@@ -52,39 +41,45 @@ class Orders{
       $product_code = $i['product_code'];
       $amount_order_item = $i['amount'];
 
-      $stmt = self::$conn->query("
+      $sql = '
         UPDATE products
-        SET amount = amount - $amount_order_item
-        WHERE code = $product_code
-      ");
+        SET amount = amount - :amount_order_item
+        WHERE code = :product_code
+      ';
+      $stmt = self::$conn->prepare($sql);
+      $stmt->execute(
+        [ 'amount_order_item' => $amount_order_item,
+          'product_code' => $product_code ]
+      );
       $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
   }
 
 
 	private static function getOrderItems(): array {
-		self::initializeConnection();
-    $stmt = self::$conn->query('
+    $sql = '
       SELECT ot.code, pr.name, pr.price, ot.amount,
       pr.price * ot.amount AS total,
       ot.product_code
       FROM order_item ot
       INNER JOIN products pr ON ot.product_code = pr.code
       WHERE order_code = (select max(code) FROM orders)
-      ');
+    ';
+    self::$conn->beginTransaction();
+
+    $stmt = self::$conn->prepare($sql);
+    $stmt->execute();
     $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     return $result;
   }
 
-  
+
 	private static function addOrders(float $total, float $tax): array | string {
     $sql = '
       INSERT INTO orders (total, tax, historydate) VALUES (:total, :tax, :historydate)
     ';
     $current_data = Common::setDate();
-    
-    self::$conn->beginTransaction();
 
     $stmt = self::$conn->prepare($sql);
     $stmt->bindParam(':total', $total, PDO::PARAM_STR);
@@ -98,7 +93,7 @@ class Orders{
     return [
       "code" => $last_code,
       "total" => $total,
-      "tax" => $tax	
+      "tax" => $tax
     ];
 	}
 
